@@ -200,11 +200,11 @@ class Configuration(object):
         :param identifier: The identifier of apiKey.
         :return: The token for api key authentication.
         """
-        if (self.api_key.get(identifier) and
-                self.api_key_prefix.get(identifier)):
-            return self.api_key_prefix[identifier] + ' ' + self.api_key[identifier]  # noqa: E501
-        elif self.api_key.get(identifier):
-            return self.api_key[identifier]
+        if self.api_key.get(identifier):
+            if self.api_key_prefix.get(identifier):
+                return f'{self.api_key_prefix[identifier]} {self.api_key[identifier]}'
+            else:
+                return self.api_key[identifier]
 
     def get_basic_auth_token(self):
         """Gets HTTP basic authentication header (string).
@@ -212,7 +212,7 @@ class Configuration(object):
         :return: The token for basic HTTP authentication.
         """
         return urllib3.util.make_headers(
-            basic_auth=self.username + ':' + self.password
+            basic_auth=f'{self.username}:{self.password}'
         ).get('authorization')
 
     def auth_settings(self):

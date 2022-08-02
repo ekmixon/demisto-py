@@ -64,8 +64,7 @@ def configure(base_url=None, api_key=None, verify_ssl=None, proxy=None, username
     if ssl_ca_cert is None:
         ssl_ca_cert = os.getenv('SSL_CERT_FILE')
     if verify_ssl is None:
-        verify_env = os.getenv('DEMISTO_VERIFY_SSL')
-        if verify_env:
+        if verify_env := os.getenv('DEMISTO_VERIFY_SSL'):
             verify_ssl = verify_env.lower() not in ['false', '0', 'no']
         else:
             verify_ssl = True
@@ -107,15 +106,19 @@ def configure(base_url=None, api_key=None, verify_ssl=None, proxy=None, username
     if connection_pool_maxsize:
         configuration.connection_pool_maxsize = connection_pool_maxsize
 
-    if username is None:
-        api_client = ApiClient(configuration)
-        api_client.user_agent = 'demisto-py/' + __version__
-        api_instance = demisto_api.DefaultApi(api_client)
-        return api_instance
-    else:
-        api_instance = login(base_url=base_url, username=username, password=password,
-                             verify_ssl=verify_ssl, proxy=proxy, debug=debug)
-        return api_instance
+    if username is not None:
+        return login(
+            base_url=base_url,
+            username=username,
+            password=password,
+            verify_ssl=verify_ssl,
+            proxy=proxy,
+            debug=debug,
+        )
+
+    api_client = ApiClient(configuration)
+    api_client.user_agent = f'demisto-py/{__version__}'
+    return demisto_api.DefaultApi(api_client)
 
 
 def login(base_url=None, username=None, password=None, verify_ssl=True, proxy=None, debug=False):
@@ -136,7 +139,7 @@ def login(base_url=None, username=None, password=None, verify_ssl=True, proxy=No
                        f' but instead received "{connection_pool_maxsize}"')
             raise ValueError(err_msg)
     api_client = ApiClient(configuration_orig)
-    api_client.user_agent = 'demisto-py/' + __version__
+    api_client.user_agent = f'demisto-py/{__version__}'
     api_instance = demisto_api.DefaultApi(api_client)
     body = {
         "user": username,
@@ -159,17 +162,15 @@ def login(base_url=None, username=None, password=None, verify_ssl=True, proxy=No
         configuration.connection_pool_maxsize = connection_pool_maxsize
     api_client = ApiClient(configuration, header_name="X-XSRF-TOKEN", header_value=xsrf_token,
                            cookie=cookies)
-    api_client.user_agent = 'demisto-py/' + __version__
+    api_client.user_agent = f'demisto-py/{__version__}'
     mid_client = demisto_api.DefaultApi(api_client)
     second_call = generic_request_func(self=mid_client, path='/login', method='POST', body=body,
                                        accept='application/json', content_type='application/json')
-    updated_cookies = cookies + '; ' + second_call[2]['Set-Cookie']
+    updated_cookies = f'{cookies}; ' + second_call[2]['Set-Cookie']
     mid_api_client = ApiClient(configuration, header_name="X-XSRF-TOKEN", header_value=xsrf_token,
                                cookie=updated_cookies)
-    mid_api_client.user_agent = 'demisto-py/' + __version__
-    final_api_client = demisto_api.DefaultApi(mid_api_client)
-
-    return final_api_client
+    mid_api_client.user_agent = f'demisto-py/{__version__}'
+    return demisto_api.DefaultApi(mid_api_client)
 
 
 def to_extended_dict(o):
@@ -229,16 +230,18 @@ def generic_request_func(self, path, method, body=None, **kwargs):
     :return: tuple of (response_data, response_code, headers).
     """
     if not path.startswith('/'):
-        path = '/' + path
+        path = f'/{path}'
 
-    all_params = ['']  # noqa: E501
-    all_params.append('async_req')
-    all_params.append('_return_http_data_only')
-    all_params.append('_preload_content')
-    all_params.append('_request_timeout')
-    all_params.append('content_type')
-    all_params.append('accept')
-    all_params.append('response_type')
+    all_params = [
+        '',
+        'async_req',
+        '_return_http_data_only',
+        '_preload_content',
+        '_request_timeout',
+        'content_type',
+        'accept',
+        'response_type',
+    ]
 
     params = locals()
     for key, val in six.iteritems(params['kwargs']):
@@ -256,18 +259,15 @@ def generic_request_func(self, path, method, body=None, **kwargs):
 
     query_params = []
 
-    header_params = {}
-
     form_params = []
     local_var_files = {}
 
     body_params = body
     # HTTP header `Accept`
     accept = params.get('accept', 'application/json')
-    if not (isinstance(accept, list) or isinstance(accept, tuple)):
+    if not isinstance(accept, (list, tuple)):
         accept = [accept]
-    header_params['Accept'] = self.api_client.select_header_accept(accept)
-
+    header_params = {'Accept': self.api_client.select_header_accept(accept)}
     # HTTP header `Content-Type`
     header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
         [params.get('content_type', 'application/json')])  # noqa: E501
@@ -307,7 +307,7 @@ def get_layouts_url_for_demisto_version(api_client, params):
         response_type=str,
         _preload_content=params.get(
         '_preload_content', True))
-    if 200 == status_code:
+    if status_code == 200:
         server_details = json.loads(server_details.replace('\'', '"'))
         if LooseVersion(server_details.get('demistoVersion')) >= LooseVersion('6.0.0'):
             url = '/layouts/import'

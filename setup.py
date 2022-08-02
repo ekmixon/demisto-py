@@ -21,7 +21,7 @@ with open('requirements.txt') as f:
 
 with open('README.md', 'r') as f:
     readme = f.read()
-    
+
 
 setup(
     use_scm_version={

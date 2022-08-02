@@ -35,7 +35,7 @@ class DefaultApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def add_ad_hoc_task(self, investigation_id, **kwargs):  # noqa: E501
+    def add_ad_hoc_task(self, investigation_id, **kwargs):    # noqa: E501
         """Add ad-hoc task  # noqa: E501
 
         Add an ad-hoc task to a running playbook  # noqa: E501
@@ -52,13 +52,9 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.add_ad_hoc_task_with_http_info(investigation_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.add_ad_hoc_task_with_http_info(investigation_id, **kwargs)  # noqa: E501
-            return data
+        return self.add_ad_hoc_task_with_http_info(investigation_id, **kwargs)  # noqa: E501
 
-    def add_ad_hoc_task_with_http_info(self, investigation_id, **kwargs):  # noqa: E501
+    def add_ad_hoc_task_with_http_info(self, investigation_id, **kwargs):    # noqa: E501
         """Add ad-hoc task  # noqa: E501
 
         Add an ad-hoc task to a running playbook  # noqa: E501
@@ -75,11 +71,14 @@ class DefaultApi(object):
                  returns the request thread.
         """
 
-        all_params = ['investigation_id', 'inv_playbook_task_data']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'investigation_id',
+            'inv_playbook_task_data',
+            'async_req',
+            '_return_http_data_only',
+            '_preload_content',
+            '_request_timeout',
+        ]
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
@@ -97,23 +96,16 @@ class DefaultApi(object):
 
         collection_formats = {}
 
-        path_params = {}
-        if 'investigation_id' in params:
-            path_params['investigationId'] = params['investigation_id']  # noqa: E501
-
+        path_params = {'investigationId': params['investigation_id']}
         query_params = []
-
-        header_params = {}
 
         form_params = []
         local_var_files = {}
 
-        body_params = None
-        if 'inv_playbook_task_data' in params:
-            body_params = params['inv_playbook_task_data']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        body_params = params.get('inv_playbook_task_data')
+        header_params = {
+            'Accept': self.api_client.select_header_accept(['application/json'])
+        }
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -138,7 +130,7 @@ class DefaultApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def close_incidents_batch(self, **kwargs):  # noqa: E501
+    def close_incidents_batch(self, **kwargs):    # noqa: E501
         """Batch close incidents  # noqa: E501
 
         Closes an incidents batch To update incident custom fields you should lowercase them and remove all spaces. For example: Scan IP -> scanip To get the actual key name you can also go to Demisto CLI and run /incident_add and look for the key that you would like to update  # noqa: E501
@@ -154,13 +146,9 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.close_incidents_batch_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.close_incidents_batch_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.close_incidents_batch_with_http_info(**kwargs)  # noqa: E501
 
-    def close_incidents_batch_with_http_info(self, **kwargs):  # noqa: E501
+    def close_incidents_batch_with_http_info(self, **kwargs):    # noqa: E501
         """Batch close incidents  # noqa: E501
 
         Closes an incidents batch To update incident custom fields you should lowercase them and remove all spaces. For example: Scan IP -> scanip To get the actual key name you can also go to Demisto CLI and run /incident_add and look for the key that you would like to update  # noqa: E501
@@ -176,11 +164,13 @@ class DefaultApi(object):
                  returns the request thread.
         """
 
-        all_params = ['update_data_batch']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'update_data_batch',
+            'async_req',
+            '_return_http_data_only',
+            '_preload_content',
+            '_request_timeout',
+        ]
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
@@ -198,17 +188,13 @@ class DefaultApi(object):
 
         query_params = []
 
-        header_params = {}
-
         form_params = []
         local_var_files = {}
 
-        body_params = None
-        if 'update_data_batch' in params:
-            body_params = params['update_data_batch']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        body_params = params.get('update_data_batch')
+        header_params = {
+            'Accept': self.api_client.select_header_accept(['application/json'])
+        }
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -233,7 +219,7 @@ class DefaultApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def complete_task(self, investigation_id, file_comment, task_id, task_input, version, file, **kwargs):  # noqa: E501
+    def complete_task(self, investigation_id, file_comment, task_id, task_input, version, file, **kwargs):    # noqa: E501
         """[Deprecated] Complete a task  # noqa: E501
 
         Complete a task with a file attachment Deprecated - use \"/v2/inv-playbook/task/complete\"  # noqa: E501
@@ -255,13 +241,9 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.complete_task_with_http_info(investigation_id, file_comment, task_id, task_input, version, file, **kwargs)  # noqa: E501
-        else:
-            (data) = self.complete_task_with_http_info(investigation_id, file_comment, task_id, task_input, version, file, **kwargs)  # noqa: E501
-            return data
+        return self.complete_task_with_http_info(investigation_id, file_comment, task_id, task_input, version, file, **kwargs)  # noqa: E501
 
-    def complete_task_with_http_info(self, investigation_id, file_comment, task_id, task_input, version, file, **kwargs):  # noqa: E501
+    def complete_task_with_http_info(self, investigation_id, file_comment, task_id, task_input, version, file, **kwargs):    # noqa: E501
         """[Deprecated] Complete a task  # noqa: E501
 
         Complete a task with a file attachment Deprecated - use \"/v2/inv-playbook/task/complete\"  # noqa: E501
@@ -283,11 +265,19 @@ class DefaultApi(object):
                  returns the request thread.
         """
 
-        all_params = ['investigation_id', 'file_comment', 'task_id', 'task_input', 'version', 'file', 'file_name']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'investigation_id',
+            'file_comment',
+            'task_id',
+            'task_input',
+            'version',
+            'file',
+            'file_name',
+            'async_req',
+            '_return_http_data_only',
+            '_preload_content',
+            '_request_timeout',
+        ]
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
@@ -329,10 +319,7 @@ class DefaultApi(object):
 
         query_params = []
 
-        header_params = {}
-
         form_params = []
-        local_var_files = {}
         if 'investigation_id' in params:
             form_params.append(('investigationId', params['investigation_id']))  # noqa: E501
         if 'file_name' in params:
@@ -345,13 +332,11 @@ class DefaultApi(object):
             form_params.append(('taskInput', params['task_input']))  # noqa: E501
         if 'version' in params:
             form_params.append(('version', params['version']))  # noqa: E501
-        if 'file' in params:
-            local_var_files['file'] = params['file']  # noqa: E501
-
+        local_var_files = {'file': params['file']}
         body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        header_params = {
+            'Accept': self.api_client.select_header_accept(['application/json'])
+        }
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -376,7 +361,7 @@ class DefaultApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def complete_task_v2(self, investigation_id, task_id, task_input, version, file, **kwargs):  # noqa: E501
+    def complete_task_v2(self, investigation_id, task_id, task_input, version, file, **kwargs):    # noqa: E501
         """Complete a task  # noqa: E501
 
         Complete a task with command and multiple file attachments  # noqa: E501
@@ -399,13 +384,9 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.complete_task_v2_with_http_info(investigation_id, task_id, task_input, version, file, **kwargs)  # noqa: E501
-        else:
-            (data) = self.complete_task_v2_with_http_info(investigation_id, task_id, task_input, version, file, **kwargs)  # noqa: E501
-            return data
+        return self.complete_task_v2_with_http_info(investigation_id, task_id, task_input, version, file, **kwargs)  # noqa: E501
 
-    def complete_task_v2_with_http_info(self, investigation_id, task_id, task_input, version, file, **kwargs):  # noqa: E501
+    def complete_task_v2_with_http_info(self, investigation_id, task_id, task_input, version, file, **kwargs):    # noqa: E501
         """Complete a task  # noqa: E501
 
         Complete a task with command and multiple file attachments  # noqa: E501
@@ -428,11 +409,20 @@ class DefaultApi(object):
                  returns the request thread.
         """
 
-        all_params = ['investigation_id', 'task_id', 'task_input', 'version', 'file', 'task_comment', 'file_names', 'file_comments']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'investigation_id',
+            'task_id',
+            'task_input',
+            'version',
+            'file',
+            'task_comment',
+            'file_names',
+            'file_comments',
+            'async_req',
+            '_return_http_data_only',
+            '_preload_content',
+            '_request_timeout',
+        ]
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
@@ -470,10 +460,7 @@ class DefaultApi(object):
 
         query_params = []
 
-        header_params = {}
-
         form_params = []
-        local_var_files = {}
         if 'investigation_id' in params:
             form_params.append(('investigationId', params['investigation_id']))  # noqa: E501
         if 'task_id' in params:
@@ -484,17 +471,16 @@ class DefaultApi(object):
             form_params.append(('taskInput', params['task_input']))  # noqa: E501
         if 'version' in params:
             form_params.append(('version', params['version']))  # noqa: E501
-        if 'file' in params:
-            local_var_files['file'] = params['file']  # noqa: E501
+        local_var_files = {'file': params['file']}
         if 'file_names' in params:
             form_params.append(('fileNames', params['file_names']))  # noqa: E501
         if 'file_comments' in params:
             form_params.append(('fileComments', params['file_comments']))  # noqa: E501
 
         body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        header_params = {
+            'Accept': self.api_client.select_header_accept(['application/json'])
+        }
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -519,7 +505,7 @@ class DefaultApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def copy_script(self, **kwargs):  # noqa: E501
+    def copy_script(self, **kwargs):    # noqa: E501
         """Copy automation  # noqa: E501
 
         Copy given automation  # noqa: E501
@@ -535,13 +521,9 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.copy_script_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.copy_script_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.copy_script_with_http_info(**kwargs)  # noqa: E501
 
-    def copy_script_with_http_info(self, **kwargs):  # noqa: E501
+    def copy_script_with_http_info(self, **kwargs):    # noqa: E501
         """Copy automation  # noqa: E501
 
         Copy given automation  # noqa: E501
@@ -557,11 +539,13 @@ class DefaultApi(object):
                  returns the request thread.
         """
 
-        all_params = ['automation_script_filter_wrapper']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'automation_script_filter_wrapper',
+            'async_req',
+            '_return_http_data_only',
+            '_preload_content',
+            '_request_timeout',
+        ]
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
@@ -579,17 +563,13 @@ class DefaultApi(object):
 
         query_params = []
 
-        header_params = {}
-
         form_params = []
         local_var_files = {}
 
-        body_params = None
-        if 'automation_script_filter_wrapper' in params:
-            body_params = params['automation_script_filter_wrapper']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        body_params = params.get('automation_script_filter_wrapper')
+        header_params = {
+            'Accept': self.api_client.select_header_accept(['application/json'])
+        }
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -614,7 +594,7 @@ class DefaultApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def create_docker_image(self, **kwargs):  # noqa: E501
+    def create_docker_image(self, **kwargs):    # noqa: E501
         """Create Image  # noqa: E501
 
         Create an image with a given list of dependencies  # noqa: E501
@@ -630,13 +610,9 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.create_docker_image_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.create_docker_image_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.create_docker_image_with_http_info(**kwargs)  # noqa: E501
 
-    def create_docker_image_with_http_info(self, **kwargs):  # noqa: E501
+    def create_docker_image_with_http_info(self, **kwargs):    # noqa: E501
         """Create Image  # noqa: E501
 
         Create an image with a given list of dependencies  # noqa: E501
@@ -652,11 +628,13 @@ class DefaultApi(object):
                  returns the request thread.
         """
 
-        all_params = ['new_docker_image']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'new_docker_image',
+            'async_req',
+            '_return_http_data_only',
+            '_preload_content',
+            '_request_timeout',
+        ]
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
@@ -674,17 +652,13 @@ class DefaultApi(object):
 
         query_params = []
 
-        header_params = {}
-
         form_params = []
         local_var_files = {}
 
-        body_params = None
-        if 'new_docker_image' in params:
-            body_params = params['new_docker_image']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        body_params = params.get('new_docker_image')
+        header_params = {
+            'Accept': self.api_client.select_header_accept(['application/json'])
+        }
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -709,7 +683,7 @@ class DefaultApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def create_feed_indicators_json(self, feed_indicators_request, **kwargs):  # noqa: E501
+    def create_feed_indicators_json(self, feed_indicators_request, **kwargs):    # noqa: E501
         """Create feed indicators from JSON  # noqa: E501
 
         Create indicators from raw JSON (similar to ingesting from a feed). Builds indicators according to the specified feed classifier, or uses the default one if not specified. Indicator properties (all optional except for value): **value** (string, required) | **type** (string) | **score** (number, 0-3, default `0`, where `0` means None, `1` Good, `2` Suspicious, and `3` Bad) | **sourceBrand** (string, default `\"External\"`) | **sourceInstance** (string, default `\"External\"`) | **reliability** (string, one of `\"A - Completely reliable\"`, `\"B - Usually reliable\"`, `\"C - Fairly reliable\"`, `\"D - Not usually reliable\"`, `\"E - Unreliable\"`, `\"F - Reliability cannot be judged\"`) | **expirationPolicy** (string, one of `\"never\"`, `\"interval\"`, `\"indicatorType\"`) | **expirationInterval** (number, in minutes)  # noqa: E501
@@ -725,11 +699,7 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.create_feed_indicators_json_with_http_info(feed_indicators_request, **kwargs)  # noqa: E501
-        else:
-            (data) = self.create_feed_indicators_json_with_http_info(feed_indicators_request, **kwargs)  # noqa: E501
-            return data
+        return self.create_feed_indicators_json_with_http_info(feed_indicators_request, **kwargs)  # noqa: E501
 
     def create_feed_indicators_json_with_http_info(self, feed_indicators_request, **kwargs):  # noqa: E501
         """Create feed indicators from JSON  # noqa: E501
